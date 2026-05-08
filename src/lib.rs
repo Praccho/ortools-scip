@@ -3,17 +3,23 @@
 //! # Quick start
 //!
 //! ```no_run
-//! use ortools_scip::{Solver, Status};
+//! use ortools_scip::Solver;
 //!
 //! let mut solver = Solver::new("example");
 //!
-//! let x = solver.make_int_var(0.0, 10.0, "x");
-//! let y = solver.make_int_var(0.0, 10.0, "y");
+//! // Continuous variables: x >= 0, y >= 0
+//! let x = solver.make_num_var(0.0, f64::INFINITY, "x");
+//! let y = solver.make_num_var(0.0, f64::INFINITY, "y");
 //!
-//! // x + y <= 15
-//! let ct = solver.make_constraint(f64::NEG_INFINITY, 15.0);
+//! // x + 2y <= 14
+//! let ct = solver.make_constraint(f64::NEG_INFINITY, 14.0);
 //! ct.set_coefficient(&x, 1.0);
-//! ct.set_coefficient(&y, 1.0);
+//! ct.set_coefficient(&y, 2.0);
+//!
+//! // 3x + y <= 14
+//! let ct2 = solver.make_constraint(f64::NEG_INFINITY, 14.0);
+//! ct2.set_coefficient(&x, 3.0);
+//! ct2.set_coefficient(&y, 1.0);
 //!
 //! // maximize 3x + 5y
 //! solver.objective().set_coefficient(&x, 3.0);
@@ -21,9 +27,10 @@
 //! solver.objective().set_maximization();
 //!
 //! let status = solver.solve();
-//! assert_eq!(status, Status::Optimal);
-//! println!("x = {}, y = {}", x.solution_value(), y.solution_value());
-//! println!("objective = {}", solver.objective().value());
+//! if status.has_solution() {
+//!     println!("x = {}, y = {}", x.solution_value(), y.solution_value());
+//!     println!("objective = {}", solver.objective().value());
+//! }
 //! ```
 
 mod ffi;
