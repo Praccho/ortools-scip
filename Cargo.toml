@@ -1,0 +1,11 @@
+[package]
+name = "ortools-scip"
+version = "0.1.0"
+edition = "2021"
+description = "Rust bindings for Google OR-Tools SCIP mixed-integer programming solver"
+license = "Apache-2.0"
+keywords = ["optimization", "solver", "scip", "integer-programming", "linear-programming"]
+categories = ["science", "mathematics", "algorithms"]
+
+[build-dependencies]
+cc = "1"
