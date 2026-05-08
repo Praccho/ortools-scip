@@ -1,12 +1,12 @@
 use ortools_scip::Solver;
 
 fn main() {
-    let mut solver = Solver::new("basic_example");
+    let mut solver = Solver::new("basic_lp");
     println!("Solver version: {}", solver.version());
 
-    // Variables: x in [0, 10], y in [0, 10] (integer)
-    let x = solver.make_int_var(0.0, 10.0, "x");
-    let y = solver.make_int_var(0.0, 10.0, "y");
+    // Continuous variables: x >= 0, y >= 0
+    let x = solver.make_num_var(0.0, f64::INFINITY, "x");
+    let y = solver.make_num_var(0.0, f64::INFINITY, "y");
 
     // Constraint: x + 2y <= 14
     let ct = solver.make_constraint(f64::NEG_INFINITY, 14.0);
@@ -35,6 +35,5 @@ fn main() {
         println!("y = {}", y.solution_value());
         println!("Wall time: {} ms", solver.wall_time_ms());
         println!("Iterations: {}", solver.iterations());
-        println!("Nodes: {}", solver.nodes());
     }
 }
